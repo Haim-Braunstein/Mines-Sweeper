@@ -1,0 +1,44 @@
+body {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.wrap-container {
+    background-color: rgb(180, 174, 174);
+    height: 500px;
+    
+}
+
+
+.board {
+    background-color: gray;
+    border: 5px solid salmon;
+    display: inline-block;
+    text-align: left;
+    /* position: relative; */
+    left: 850px;
+
+}
+
+
+.cell {
+    width: 40px;
+    height: 40px;
+    border: 2px solid salmon;
+    margin: 0 auto;
+}
+
+.close {
+    width: 40px;
+    height: 40px;
+    border: 2px solid salmon;
+    margin: 0 auto;
+    background-color: grey;
+}
+
+.is-shown{
+    color: blue;
+    text-align:center;
+    font-weight: bolder;
+}
