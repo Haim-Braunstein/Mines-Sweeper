@@ -16,8 +16,8 @@ body {
     border: 5px solid salmon;
     display: inline-block;
     text-align: left;
-    /* position: relative; */
-    left: 850px;
+    position: relative;
+    left: 750px;
 
 }
 
@@ -38,6 +38,7 @@ body {
 }
 
 .is-shown{
+    background: lightgray;
     color: blue;
     text-align:center;
     font-weight: bolder;

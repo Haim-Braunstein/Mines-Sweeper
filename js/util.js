@@ -33,6 +33,6 @@ function resetNums() {
 }
 
 function playSound() {
-    const sound = new Audio('sound/pop.mp3')
+    const sound = new Audio('sound/game-over.mp3')
     sound.play()
 }
