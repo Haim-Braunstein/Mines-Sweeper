@@ -115,9 +115,14 @@ function renderBoard(board) {
 
 function checkGameOver() {
 
-    const allCellsShown = (gGame.shownCount +gLevel.mines === gLevel.size**2)
+    const allCellsShown = (gGame.shownCount + gLevel.mines === gLevel.size ** 2)
 
-    if (gLevel.mines === 0 && )
+    console.log('game over');
+
+    clearInterval(gGameInterval)
+    onInit()
+
+    // if (gLevel.mines === 0 && )
 }
 
 
@@ -150,6 +155,7 @@ function onCellClicked(elCell, i, j) {
     gGameInterval = setInterval(timeStart, 1000)
 
     const cell = gBoard[i][j]
+
     if (cell.isMarked) return
     elCell.classList.add('is-shown')
     cell.isShown = true
@@ -162,11 +168,13 @@ function onCellClicked(elCell, i, j) {
         playSound()
     }
 
-    if (!cell.isMine) elCell.innerText = cell.minesAroundCount = setMinesNegsCount(gBoard, i, j)
+
+     if (!cell.isMine && cell.markedCount > 0) elCell.innerText = setMinesNegsCount(gBoard, i, j)
+    
 
     expandShown(gBoard, i, j)
+     
 }
-
 
 function onCellMarked(elCell, i, j) {
     const cell = gBoard[i][j]
