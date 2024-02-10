@@ -4,9 +4,9 @@
 const MINES = '💣'
 const FLAG = '🚩'
 const EMPTY = ''
-const SMILEY = '😃'
-const SAD_SMILEY = '😵'
-const SUNGLASSES_SMILEY = '😎'
+const SMILEY = `<img src="img/smiley.png">`
+const EXPLODE_SMILEY = `<img src="img/smiley_explode.png">`
+const SUNGLASSES_SMILEY = `<img src="img/smiley_glasses.png">`
 
 var gBoard
 var gGameInterval
@@ -37,7 +37,7 @@ function onInit() {
         .addEventListener('contextmenu', (e) => {
             e.preventDefault()
         })
-    const elTime = document.querySelector('.time')
+    const elTime = document.querySelector('span.time')
     elTime.innerHTML = '000'
     handleSmiley(SMILEY)
     hideModal()
@@ -51,13 +51,17 @@ function onClickLevel(level, mines) {
         mines: mines,
     }
 
-    const elTime = document.querySelector('.time')
+    const elTime = document.querySelector('span.time')
     elTime.innerHTML = '000'
     onInit()
+
 }
+
+
 
 function buildBoard() {
     const board = []
+    // var copyBoard = []
 
     for (var i = 0; i < gLevel.size; i++) {
         board.push([])
@@ -73,11 +77,13 @@ function buildBoard() {
             board[i][j] = cell
         }
     }
+    // copyBoard=board.slice()
 
     // board[0][0].isMine = true
     // board[0][1].isMine = true
 
     addMines(board)
+
 
     return board
 }
@@ -137,7 +143,7 @@ function checkGameOver() {
 
         handleSmiley(SUNGLASSES_SMILEY)
         clearInterval(gGameInterval)
-        showModal( 'You Won !')
+        showModal('You Won !')
     }
 
 
@@ -147,7 +153,7 @@ function gameOver() {
     if (gGame.lives === 0) {
         clearInterval(gGameInterval)
         gGame.isOn = false
-        showModal( 'You Lost !')
+        showModal('You Lost !')
     }
 
     return
@@ -185,6 +191,11 @@ function timeStart() {
 function onCellClicked(elCell, i, j) {
     gGame.isOn = true
 
+    elCell.addEventListener = ('click', () => {
+        console.log('Button Clicked')
+    })
+
+
     if (!gGame.isOn) return
 
     clearInterval(gGameInterval)
@@ -203,7 +214,7 @@ function onCellClicked(elCell, i, j) {
         elCell.innerHTML = MINES
         gGame.lives--
         renderLives()
-        handleSmiley(SAD_SMILEY)
+        handleSmiley(EXPLODE_SMILEY)
     } else {
 
         handleSmiley(SMILEY)
@@ -220,7 +231,6 @@ function onCellMarked(elCell, i, j) {
     const cell = gBoard[i][j]
 
     if (gGame.markedCount === gLevel.mines || cell.isShown) return
-    // if (cell.isMarked && cell.isMine) gLevel.mines--
     cell.isMarked = true
     gGame.markedCount++
     elCell.innerHTML = FLAG
@@ -263,11 +273,11 @@ function expandShown(board, cellI, cellJ) {
 
 function renderLives() {
 
-    const elLives = document.querySelector('.lives')
+    const elLives = document.querySelector('span.lives')
     elLives.innerHTML = ''
 
     for (var i = 0; i < gGame.lives; i++) {
-        elLives.innerHTML += '♥ '
+        elLives.innerHTML += `<img src="img/heart.png">`
     }
 
 }
