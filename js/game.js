@@ -27,7 +27,9 @@ var gGame = {
 
 function onInit() {
     clearInterval(gGameInterval)
+    gGame.isOn = true
     gGame.secsPassed = 0
+    gGame.markedCount = 0
     gBoard = buildBoard()
     renderBoard(gBoard)
     gGame.lives = 3
@@ -53,15 +55,16 @@ function onClickLevel(level, mines) {
 
     const elTime = document.querySelector('span.time')
     elTime.innerHTML = '000'
+    const elMine = document.querySelector('span.mine')
+    elMine.innerText = gLevel.mines
+
     onInit()
 
 }
 
-
-
 function buildBoard() {
     const board = []
-    // var copyBoard = []
+    var copyBoard = []
 
     for (var i = 0; i < gLevel.size; i++) {
         board.push([])
@@ -77,12 +80,12 @@ function buildBoard() {
             board[i][j] = cell
         }
     }
-    // copyBoard=board.slice()
+    copyBoard = board.slice()
 
     // board[0][0].isMine = true
     // board[0][1].isMine = true
 
-    addMines(board)
+    addMines(copyBoard)
 
 
     return board
@@ -122,6 +125,47 @@ function renderBoard(board) {
     elBoard.innerHTML = strHTML
 }
 
+function onCellClicked(elCell, i, j) {
+
+    if (!gGame.isOn) return
+
+    clearInterval(gGameInterval)
+    gGameInterval = setInterval(timeStart, 1000)
+
+    const cell = gBoard[i][j]
+
+    elCell.classList.add('is-shown')
+    cell.isShown = true
+    gGame.shownCount++
+
+    if (cell.isMine) {
+        elCell.style.backgroundColor = 'red'
+        elCell.innerHTML = MINES
+        gGame.lives--
+        renderLives()
+        handleSmiley(EXPLODE_SMILEY)
+    } else {
+
+        handleSmiley(SMILEY)
+    }
+
+    expandShown(gBoard, i, j)
+    gameOver()
+    checkGameOver()
+}
+
+function onCellMarked(elCell, i, j) {
+    if (!gGame.isOn) return
+    const cell = gBoard[i][j]
+    gGame.markedCount++
+    if (gGame.markedCount > gLevel.mines || cell.isShown) return
+
+    cell.isMarked = true
+    elCell.innerHTML = FLAG
+    checkGameOver()
+
+}
+
 function checkGameOver() {
 
     var allMinesMarked = true
@@ -144,6 +188,8 @@ function checkGameOver() {
         handleSmiley(SUNGLASSES_SMILEY)
         clearInterval(gGameInterval)
         showModal('You Won !')
+        gGame.isOn = false
+
     }
 
 
@@ -188,55 +234,7 @@ function timeStart() {
 
 }
 
-function onCellClicked(elCell, i, j) {
-    gGame.isOn = true
 
-    elCell.addEventListener = ('click', () => {
-        console.log('Button Clicked')
-    })
-
-
-    if (!gGame.isOn) return
-
-    clearInterval(gGameInterval)
-    gGameInterval = setInterval(timeStart, 1000)
-
-    const cell = gBoard[i][j]
-
-    elCell.classList.add('is-shown')
-    cell.isShown = true
-    gGame.shownCount++
-
-
-
-    if (cell.isMine) {
-        elCell.style.backgroundColor = 'red'
-        elCell.innerHTML = MINES
-        gGame.lives--
-        renderLives()
-        handleSmiley(EXPLODE_SMILEY)
-    } else {
-
-        handleSmiley(SMILEY)
-
-    }
-
-    expandShown(gBoard, i, j)
-    gameOver()
-    checkGameOver()
-}
-
-function onCellMarked(elCell, i, j) {
-    // if (!gGame.isOn) return
-    const cell = gBoard[i][j]
-
-    if (gGame.markedCount === gLevel.mines || cell.isShown) return
-    cell.isMarked = true
-    gGame.markedCount++
-    elCell.innerHTML = FLAG
-    checkGameOver()
-
-}
 
 function expandShown(board, cellI, cellJ) {
 
