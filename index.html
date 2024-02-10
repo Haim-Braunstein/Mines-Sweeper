@@ -13,7 +13,6 @@
         <h1>Mine Sweeper</h1>
 
         <div class="btn-container">
-            <button onclick="onInit()">Restart</button>
             <button onclick="onClickLevel(4,2)">easy</button>
             <button onclick="onClickLevel(8,14)">medium</button>
             <button onclick="onClickLevel(12,32)">hard</button>
@@ -27,15 +26,14 @@
 
         </div>
 
-        <table>
-            <tbody class="board"></tbody>
-        </table>
+            <table>
+                <tbody class="board"></tbody>
+            </table>
 
-        
-		<div class="modal">
-			<h3>You Lost!</h3>
-			<button onclick="onInit()">Play again</button>
-		</div>
+        <div class="modal">
+            <h3 class="game-result"></h3>
+            <button onclick="onInit()">Play again</button>
+        </div>
 
 
         <footer> 👻 Made By Haim Braunstein</footer>

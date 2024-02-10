@@ -1,83 +1,86 @@
 body {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    font-family: cursive;
-}
-
-.wrap-container {
-    background-color: rgb(180, 174, 174);
-    height: 800px;
-    
-}
-.lives{
-    color: red;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-family: cursive;
+  background-color: rgb(116, 182, 212);
 
 }
 
-.hide{
-    display: none;
-  }
+
+.lives {
+  color: red;
+
+
+}
+
+.hide {
+  display: none;
+}
 
 .modal {
-    width: 200px;
-    top: 20%;
-    right: 30%;
-    background-color: rgb(78, 76, 76);
-    border-radius: 10px;
-    border: 1px solid;
-    padding-bottom: 20px;
-    position: absolute;
-  }
-
-.smiley{
-   background-color: aqua;
+  width: 200px;
+  top: 30%;
+  right: 30%;
+  background-color: rgb(78, 76, 76);
+  border-radius: 10px;
+  border: 2px solid;
+  padding-bottom: 10px;
+  position: absolute;
 }
 
-.btn-container{
-    margin-top: 10px;
+.smiley {
+  background-color: aqua;
 }
-img{
-    height: 20px;
-    margin: auto;
-    text-align: center;
+
+.btn-container {
+  margin-top: 10px;
+}
+
+img {
+  height: 20px;
+  margin: auto;
+  text-align: center;
 }
 
 .board {
-    background-color: gray;
-    border: 5px solid salmon;
-    display: inline-block;
-    text-align: left;
-    position: relative;
-    left: 720px;
+  display: inline-block;
+  width: fit-content;
 
 }
+
+table {
+  margin: 0 auto;
+}
+
 
 
 .cell {
-    width: 40px;
-    height: 40px;
-    border: 2px solid salmon;
-    margin: 0 auto;
+  width: 40px;
+  height: 40px;
 }
 
 .close {
-    width: 40px;
-    height: 40px;
-    border: 2px solid salmon;
-    margin: 0 auto;
-    background-color: grey;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: rgb(155, 146, 146);
+  box-shadow: 6px 5px 11px 2px #00000070;
+
 }
 
-.is-shown{
-    background: lightgray;
-    color: blue;
-    text-align:center;
-    font-weight: bolder;
+.is-shown {
+  background: lightgray;
+  color: blue;
+  text-align: center;
+  font-weight: bolder;
 }
 
-button{
 
+footer{
+  padding: 10px;
+}
+button {
 
   align-items: center;
   background-color: #FFFFFF;
@@ -88,7 +91,7 @@ button{
   color: rgba(0, 0, 0, 0.85);
   cursor: pointer;
   display: inline-flex;
-  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
   justify-content: center;
@@ -125,3 +128,10 @@ button{
   transform: translateY(0);
 }
 
+.btn-container {
+
+  border: 2px solid red;
+  padding: 5px;
+  width: fit-content;
+  margin: auto;
+}

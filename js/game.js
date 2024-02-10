@@ -27,9 +27,9 @@ var gGame = {
 
 function onInit() {
     clearInterval(gGameInterval)
+    gGame.secsPassed = 0
     gBoard = buildBoard()
     renderBoard(gBoard)
-    gGame.isOn = true
     gGame.lives = 3
     renderLives()
 
@@ -73,6 +73,9 @@ function buildBoard() {
             board[i][j] = cell
         }
     }
+
+    // board[0][0].isMine = true
+    // board[0][1].isMine = true
 
     addMines(board)
 
@@ -133,8 +136,10 @@ function checkGameOver() {
     if (allMinesMarked === true && allNonMineCellsShown === true) {
 
         handleSmiley(SUNGLASSES_SMILEY)
-
+        clearInterval(gGameInterval)
+        showModal( 'You Won !')
     }
+
 
 }
 
@@ -142,7 +147,7 @@ function gameOver() {
     if (gGame.lives === 0) {
         clearInterval(gGameInterval)
         gGame.isOn = false
-        showModal()
+        showModal( 'You Lost !')
     }
 
     return
@@ -178,7 +183,7 @@ function timeStart() {
 }
 
 function onCellClicked(elCell, i, j) {
-    // addMines(gBoard)
+    gGame.isOn = true
 
     if (!gGame.isOn) return
 
@@ -191,16 +196,18 @@ function onCellClicked(elCell, i, j) {
     cell.isShown = true
     gGame.shownCount++
 
-    if (gGame.isShown) {
-        return
 
-    } else if (cell.isMine) {
+
+    if (cell.isMine) {
         elCell.style.backgroundColor = 'red'
         elCell.innerHTML = MINES
-        playSound()
         gGame.lives--
         renderLives()
         handleSmiley(SAD_SMILEY)
+    } else {
+
+        handleSmiley(SMILEY)
+
     }
 
     expandShown(gBoard, i, j)
@@ -209,14 +216,15 @@ function onCellClicked(elCell, i, j) {
 }
 
 function onCellMarked(elCell, i, j) {
-    if (!gGame.isOn) return
+    // if (!gGame.isOn) return
     const cell = gBoard[i][j]
 
     if (gGame.markedCount === gLevel.mines || cell.isShown) return
-    if (cell.isMarked && cell.isMine) gLevel.mines--
+    // if (cell.isMarked && cell.isMine) gLevel.mines--
     cell.isMarked = true
     gGame.markedCount++
     elCell.innerHTML = FLAG
+    checkGameOver()
 
 }
 
@@ -230,34 +238,24 @@ function expandShown(board, cellI, cellJ) {
 
             const elCell = document.querySelector(`.cell-${i}-${j}`)
 
-            const cell = board[i][j];
-            if (!cell.isShown) {
+            const cell = board[i][j]
+            if (!cell.isShown && !cell.isMine) {
                 cell.isShown = true
                 gGame.shownCount++
                 elCell.classList.add('is-shown')
 
-                if (cell.isMine) {
-                    elCell.style.backgroundColor = 'red'
-                    elCell.innerHTML = MINES
-                    playSound()
-                    gGame.lives--
-                    renderLives()
-                    handleSmiley(SAD_SMILEY)
-
+                const minesCount = setMinesNegsCount(board, i, j)
+                if (minesCount > 0) {
+                    elCell.innerText = minesCount
                 } else {
-                    const minesCount = setMinesNegsCount(board, i, j)
-                    if (minesCount > 0) {
-                        elCell.innerText = minesCount
-                    } else {
-                        elCell.innerText = EMPTY
-                    }
+                    elCell.innerText = EMPTY
                 }
 
-                // if (cell.minesAroundCount === 0) {
-                //     expandShown(board, i, j);
-                // } else {
-                //     elCell.innerText = cell.minesAroundCount;
-                // }
+                if (minesCount < 1 && !cell.isMine) {
+                    expandShown(board, i, j)
+                } else if (minesCount > 0) {
+                    elCell.innerText = minesCount
+                }
             }
         }
     }
@@ -281,12 +279,16 @@ function handleSmiley(smiley) {
 }
 
 
-function showModal() {
+function showModal(result) {
+
     const elModal = document.querySelector('.modal')
     elModal.classList.remove('hide')
+    const elH3 = document.querySelector('h3.game-result')
+    elH3.innerText = result
 }
 
 function hideModal() {
+
     const elModal = document.querySelector('.modal')
     elModal.classList.add('hide')
 }
